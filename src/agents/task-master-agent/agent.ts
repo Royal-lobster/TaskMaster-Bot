@@ -1,6 +1,6 @@
 import { AgentBuilder, createDatabaseSessionService } from "@iqai/adk";
 import dedent from "dedent";
-import { env } from "../env";
+import { env } from "../../env";
 import { createReminderAgent } from "./sub-agents/reminder-agent/agent";
 import { createShoppingListAgent } from "./sub-agents/shopping-list-agent/agent";
 
@@ -11,7 +11,6 @@ export const createTaskMasterAgent = async () => {
 	const initialState = {
 		reminders: [],
 		shopping_list: [],
-		user_name: "Srujan",
 	};
 
 	const { runner, session } = await AgentBuilder.create("personal_agent")
@@ -38,11 +37,6 @@ export const createTaskMasterAgent = async () => {
 			   - Monitor user's shopping list in state['shopping_list']
 			     - Shopping items are stored as objects with "text", "quantity", "completed", and "id" properties
 			   - Use state to provide contextual and personalized responses
-
-			**User Information:**
-			<user_info>
-			Name: {user_name}
-			</user_info>
 
 			**Current Reminders:**
 			<reminders>
@@ -81,6 +75,7 @@ export const createTaskMasterAgent = async () => {
 			- If the request is ambiguous, ask clarifying questions
 			- Summarize what was accomplished after delegating to sub-agents
 			- Suggest related actions that might be helpful
+			- use emojis to improve the formatting of the message
 
 			**Examples of Good Responses:**
 			- "I'll help you add that reminder. Let me connect you with my reminder assistant..."

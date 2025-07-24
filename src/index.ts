@@ -1,8 +1,8 @@
-import { createSamplingHandler, McpTelegram } from "@iqai/adk";
+import { createSamplingHandler } from "@iqai/adk";
 import * as dotenv from "dotenv";
-import { env } from "./env";
-import { createReminderNotificationService } from "./services/reminder-notification";
-import { createTaskMasterAgent } from "./task-master-agent/agent";
+import { createNotifyAgent } from "./agents/notify-agent/agent";
+import { createTaskMasterAgent } from "./agents/task-master-agent/agent";
+import { ReminderNotificationService } from "./services/reminder-notification";
 
 dotenv.config();
 
@@ -18,37 +18,20 @@ async function main() {
 
 	const { sessionService, session, runner } = await createTaskMasterAgent();
 
-	// Validate required environment variables
-	if (!env.TELEGRAM_BOT_TOKEN) {
-		console.error(
-			"❌ TELEGRAM_BOT_TOKEN is required. Please set it in your .env file.",
-		);
-		process.exit(1);
-	}
-
 	// Create sampling handler for the Telegram MCP
 	const samplingHandler = createSamplingHandler(runner.ask);
 
-	// Initialize Telegram toolset
-	const toolset = McpTelegram({
-		samplingHandler,
-		env: {
-			TELEGRAM_BOT_TOKEN: env.TELEGRAM_BOT_TOKEN,
-		},
-	});
-
-	const tools = await toolset.getTools();
+	const { runner: notifyRunner } = await createNotifyAgent(samplingHandler);
 
 	console.log("✅ Telegram bot agent initialized successfully!");
 	console.log("🚀 Bot is now running and ready to receive messages...");
 
 	// Start the reminder notification service
-	const reminderService = createReminderNotificationService(
+	const reminderService = new ReminderNotificationService(
 		session,
 		sessionService,
-		tools,
+		notifyRunner,
 	);
-
 	reminderService.start();
 
 	// Handle graceful shutdown

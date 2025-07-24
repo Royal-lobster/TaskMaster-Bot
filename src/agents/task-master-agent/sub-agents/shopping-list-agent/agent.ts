@@ -33,7 +33,7 @@ export const createShoppingListAgent = async () => {
 			When showing the shopping list, format it clearly:
 			- Show pending items first (these still need to be bought)
 			- Show completed items separately (these have been purchased)
-			- Use emojis like ✅ for completed items and 📝 for pending items
+			- Use emojis like ✅ for completed items and 📝 for pending items and formatting of message in general
 			- Include quantities in the display
 
 			IMPORTANT GUIDELINES:

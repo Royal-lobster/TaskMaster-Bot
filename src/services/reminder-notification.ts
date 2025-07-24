@@ -1,7 +1,6 @@
 import {
-	AgentBuilder,
 	type BaseSessionService,
-	type BaseTool,
+	type EnhancedRunner,
 	Event,
 	EventActions,
 	type Session,
@@ -10,17 +9,10 @@ import dedent from "dedent";
 import { env } from "../env";
 import type { PersonalAgentState, Reminder } from "../types";
 
-export interface ReminderNotificationService {
-	start(): void;
-	stop(): void;
-}
-
 /**
  * Service for handling reminder notifications
  */
-export class ReminderNotificationServiceImpl
-	implements ReminderNotificationService
-{
+export class ReminderNotificationService {
 	private intervalId: NodeJS.Timeout | null = null;
 	private isRunning = false;
 	private readonly checkIntervalMs: number;
@@ -28,7 +20,7 @@ export class ReminderNotificationServiceImpl
 	constructor(
 		private readonly session: Session,
 		private readonly sessionService: BaseSessionService,
-		private readonly telegramTools: BaseTool[],
+		private readonly notifyRunner: EnhancedRunner,
 		checkIntervalMs = 30000, // Check every 30 seconds instead of every second
 	) {
 		this.checkIntervalMs = checkIntervalMs;
@@ -152,11 +144,6 @@ export class ReminderNotificationServiceImpl
 	 */
 	private async sendReminderNotification(reminder: Reminder): Promise<void> {
 		try {
-			const { runner } = await AgentBuilder.create("reminder_notify_agent")
-				.withModel("gemini-2.5-flash")
-				.withTools(...this.telegramTools)
-				.build();
-
 			const message = dedent`
 				🔔 Reminder Alert!
 
@@ -165,7 +152,7 @@ export class ReminderNotificationServiceImpl
 				Scheduled for: ${reminder.scheduledTime ? new Date(reminder.scheduledTime).toLocaleString() : "None"}
 			`;
 
-			await runner.ask(dedent`
+			await this.notifyRunner.ask(dedent`
 				Send this reminder notification via telegram: "${message} to channel id: ${env.TELEGRAM_CHANNEL_ID}"
 			`);
 
@@ -208,21 +195,4 @@ export class ReminderNotificationServiceImpl
 
 		return true;
 	}
-}
-
-/**
- * Factory function to create a reminder notification service
- */
-export function createReminderNotificationService(
-	session: Session,
-	sessionService: BaseSessionService,
-	telegramTools: BaseTool[],
-	checkIntervalMs?: number,
-): ReminderNotificationService {
-	return new ReminderNotificationServiceImpl(
-		session,
-		sessionService,
-		telegramTools,
-		checkIntervalMs,
-	);
 }
