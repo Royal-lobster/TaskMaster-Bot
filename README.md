@@ -66,15 +66,19 @@ pnpm dev
 ## 📁 Project Structure
 ```
 ├── src/
-│   ├── personal-agent/
-│   │   ├── agent.ts                    # Main personal assistant agent
-│   │   └── sub-agents/
-│   │       ├── reminder-agent/
-│   │       │   ├── agent.ts           # Reminder management logic
-│   │       │   └── tools.ts           # Reminder tools and actions
-│   │       └── shopping-list-agent/
-│   │           ├── agent.ts           # Shopping list management
-│   │           └── tools.ts           # Shopping list tools
+│   ├── agents/
+│   │   ├── task-master-agent/
+│   │   │   ├── agent.ts               # Main task master coordinator agent
+│   │   │   └── sub-agents/
+│   │   │       ├── reminder-agent/
+│   │   │       │   ├── agent.ts       # Reminder management logic
+│   │   │       │   └── tools.ts       # Reminder tools and actions
+│   │   │       └── shopping-list-agent/
+│   │   │           ├── agent.ts       # Shopping list management
+│   │   │           └── tools.ts       # Shopping list tools
+│   │   └── telegram-agent/
+│   │       ├── agent.ts               # Telegram bot interface agent
+│   │       └── tools.ts               # Telegram communication tools
 │   ├── services/
 │   │   └── reminder-notification.ts   # Automatic notification service
 │   ├── types.ts                       # TypeScript type definitions
@@ -114,7 +118,7 @@ TaskMaster intelligently understands your requests and routes them to the approp
 
 ### Agent Hierarchy
 ```
-TaskMaster Agent (Main Router)
+TaskMaster Agent (Main Coordinator)
 ├── Reminder Agent
 │   ├── Add/View/Update/Delete reminders
 │   ├── Schedule with flexible time parsing
@@ -125,11 +129,18 @@ TaskMaster Agent (Main Router)
     ├── Mark items as completed
     ├── Quantity management
     └── List organization
+
+Telegram Agent (Communication Interface)
+├── Telegram bot integration
+├── Message handling and routing
+├── Real-time notification delivery
+└── User interaction management
 ```
 
 ### Key Components
-- **TaskMaster Agent**: Main coordinator that understands user intent and routes to specialized agents
-- **Sub-Agents**: Specialized agents for reminders and shopping lists with their own tools
+- **TaskMaster Agent**: Main coordinator that understands user intent and routes to specialized sub-agents
+- **Telegram Agent**: Handles Telegram bot integration, message processing, and real-time communication
+- **Sub-Agents**: Specialized agents for reminders and shopping lists with their own tools and logic
 - **Notification Service**: Background service that monitors for due reminders and sends Telegram notifications
 - **State Management**: Persistent storage of user data with database sessions
 - **Tool System**: Modular functions that agents can use to perform specific actions
@@ -144,11 +155,17 @@ This project includes:
 
 ## 🎯 Extending TaskMaster
 
-### Adding New Agents
-1. Create a new agent in `src/personal-agent/sub-agents/`
+### Adding New Sub-Agents
+1. Create a new agent in `src/agents/task-master-agent/sub-agents/`
 2. Define tools in the agent's `tools.ts` file
-3. Register the agent in `src/personal-agent/agent.ts`
+3. Register the agent in `src/agents/task-master-agent/agent.ts`
 4. Update TaskMaster's instructions to route to your new agent
+
+### Adding New Main Agents
+1. Create a new agent directory in `src/agents/`
+2. Implement the agent with its tools and functionality
+3. Initialize and wire the agent in `src/index.ts`
+4. Update the routing logic as needed
 
 ### Adding New Tools
 1. Create tools using `createTool()` from `@iqai/adk`
@@ -158,7 +175,7 @@ This project includes:
 
 ### Customizing Behavior
 - Modify agent instructions in the respective agent files
-- Update the personal agent's routing logic
+- Update the task master agent's routing logic
 - Customize notification messages in `reminder-notification.ts`
 - Add new data types in `types.ts`
 
