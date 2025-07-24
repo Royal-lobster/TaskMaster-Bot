@@ -16,12 +16,11 @@ dotenv.config();
 async function main() {
 	console.log("🤖 Initializing Telegram bot agent...");
 
+	// Initialize agents
 	const { sessionService, session, runner } = await createTaskMasterAgent();
-
-	// Create sampling handler for the Telegram MCP
-	const samplingHandler = createSamplingHandler(runner.ask);
-
-	const { runner: notifyRunner } = await createNotifyAgent(samplingHandler);
+	const { runner: notifyRunner } = await createNotifyAgent(
+		createSamplingHandler(runner.ask),
+	);
 
 	console.log("✅ Telegram bot agent initialized successfully!");
 	console.log("🚀 Bot is now running and ready to receive messages...");
