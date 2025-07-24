@@ -11,6 +11,12 @@ importers:
       '@iqai/adk':
         specifier: ^0.1.19
         version: 0.1.19(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(@types/pg@8.15.4)(pg@8.16.3)(react@19.1.0)(ws@8.18.3)
+      chrono-node:
+        specifier: ^2.8.3
+        version: 2.8.3
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       dedent:
         specifier: ^1.6.0
         version: 1.6.0
@@ -967,6 +973,10 @@ packages:
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
+  chrono-node@2.8.3:
+    resolution: {integrity: sha512-YukiXak31pshonVWaeJ9cZ4xxWIlbsyn5qYUkG5pQ+usZ6l22ASXDIk0kHUQkIBNOCLRevFkHJjnGKXwZNtyZw==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+
   cjs-module-lexer@1.4.3:
     resolution: {integrity: sha512-9z8TZaGM1pfswYeXrUpzPrkx8UnWYdhJclsiYMm6x/w5+nN+8Tf/LnAgfLGQCm59qAOxU8WwHEq2vNwF6i4j+Q==}
 
@@ -1012,6 +1022,12 @@ packages:
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
+
+  dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@4.4.1:
     resolution: {integrity: sha512-KcKCqiftBJcZr++7ykoDIEwSa3XWowTfNPo92BYxjXiyYEVrUQh2aLyhxBCwww+heortUFxEJYcRzosstTEBYQ==}
@@ -3140,6 +3156,10 @@ snapshots:
 
   chownr@1.1.4: {}
 
+  chrono-node@2.8.3:
+    dependencies:
+      dayjs: 1.11.13
+
   cjs-module-lexer@1.4.3: {}
 
   cliui@8.0.1:
@@ -3184,6 +3204,10 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  date-fns@4.1.0: {}
+
+  dayjs@1.11.13: {}
 
   debug@4.4.1:
     dependencies:
