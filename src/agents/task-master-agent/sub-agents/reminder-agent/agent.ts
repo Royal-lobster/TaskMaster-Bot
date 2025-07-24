@@ -66,6 +66,7 @@ export const createReminderAgent = async () => {
 			- Use 1-based indexing when talking to users (first reminder = index 1)
 			- Always show the current state after operations
 			- Be helpful and suggest actions when the user seems unsure
+			- Use emojis for nicer formatting of messages
 			- For scheduling, be flexible with time input and suggest corrections if needed
 			- For recurring reminders, explain how they work and when they'll next trigger`,
 		tools: [

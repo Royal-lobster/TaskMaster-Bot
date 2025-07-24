@@ -8,6 +8,12 @@ export const createTaskMasterAgent = async () => {
 	const reminderAgent = await createReminderAgent();
 	const shoppingListAgent = await createShoppingListAgent();
 	const sessionService = createDatabaseSessionService(env.DATABASE_URL);
+	const sessionKey = {
+		userId: "default_user",
+		appName: "task_master",
+		sessionId: "default_session",
+	};
+
 	const initialState = {
 		reminders: [],
 		shopping_list: [],
@@ -17,7 +23,10 @@ export const createTaskMasterAgent = async () => {
 		.withDescription(
 			"Personal productivity assistant for managing reminders and shopping lists",
 		)
-		.withSessionService(sessionService, { state: initialState })
+		.withSessionService(sessionService, {
+			state: initialState,
+			...sessionKey,
+		})
 		.withModel("gemini-2.5-flash")
 		.withInstruction(dedent`
 			You are a helpful personal productivity assistant designed to help users manage their daily tasks and shopping needs.

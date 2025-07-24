@@ -29,19 +29,50 @@ export const addReminder = createTool({
 	fn: ({ reminder, scheduledTime }, context) => {
 		const reminders = context.state.get("reminders", []);
 
+		let parsedScheduledTime = null;
+		let timeInfo = "";
+
+		// Parse scheduled time if provided
+		if (scheduledTime) {
+			try {
+				const parsedDate = parseTimeInput(scheduledTime);
+				
+				if (!isValid(parsedDate)) {
+					return {
+						success: false,
+						message: `Invalid date format: "${scheduledTime}". Please use natural language like: 'tomorrow at 3pm', 'in 2 hours', 'next Monday at 9am', 'July 30th at 2:30pm', 'Friday morning'. Avoid vague terms.`,
+					};
+				}
+
+				// Check if the time is in the past
+				const now = new Date();
+				if (isBefore(parsedDate, now)) {
+					return {
+						success: false,
+						message: `Cannot schedule reminder in the past. The time ${parsedDate.toLocaleString()} has already passed.`,
+					};
+				}
+
+				parsedScheduledTime = parsedDate.toISOString();
+				timeInfo = ` (due: ${parsedDate.toLocaleString()})`;
+			} catch (error) {
+				return {
+					success: false,
+					message: `Could not parse time input: "${scheduledTime}". Try natural language like: "tomorrow at 3pm", "in 2 hours", "next Monday at 9am", "July 30th at 2:30pm", "Friday morning"`,
+					error: error instanceof Error ? error.message : "Unknown error",
+				};
+			}
+		}
+
 		const reminderObj = {
 			text: reminder,
 			createdAt: new Date().toISOString(),
-			scheduledTime: scheduledTime || null,
+			scheduledTime: parsedScheduledTime,
 			id: uuidv4(),
 		};
 
 		reminders.push(reminderObj);
 		context.state.set("reminders", reminders);
-
-		const timeInfo = scheduledTime
-			? ` (due: ${new Date(scheduledTime).toLocaleString()})`
-			: "";
 
 		return {
 			success: true,
@@ -108,15 +139,34 @@ export const updateReminder = createTool({
 
 		// Update scheduled time if provided
 		if (scheduledTime) {
-			const scheduledDate = new Date(scheduledTime);
-			if (!isValid(scheduledDate)) {
+			try {
+				const scheduledDate = parseTimeInput(scheduledTime);
+				
+				if (!isValid(scheduledDate)) {
+					return {
+						success: false,
+						message:
+							"Invalid date format. Please use natural language like: 'tomorrow at 3pm', 'in 2 hours', 'next Monday at 9am', 'July 30th at 2:30pm', 'Friday morning'. Avoid vague terms.",
+					};
+				}
+
+				// Check if the time is in the past
+				const now = new Date();
+				if (isBefore(scheduledDate, now)) {
+					return {
+						success: false,
+						message: `Cannot schedule reminder in the past. The time ${scheduledDate.toLocaleString()} has already passed.`,
+					};
+				}
+
+				updatedReminder.scheduledTime = scheduledDate.toISOString();
+			} catch (error) {
 				return {
 					success: false,
-					message:
-						"Invalid date format. Please use natural language like: 'tomorrow at 3pm', 'in 2 hours', 'next Monday at 9am', 'July 30th at 2:30pm', 'Friday morning'. Avoid vague terms.",
+					message: `Could not parse time input: "${scheduledTime}". Try natural language like: "tomorrow at 3pm", "in 2 hours", "next Monday at 9am", "July 30th at 2:30pm", "Friday morning"`,
+					error: error instanceof Error ? error.message : "Unknown error",
 				};
 			}
-			updatedReminder.scheduledTime = scheduledDate.toISOString();
 		}
 
 		// Update recurring schedule if provided
@@ -197,13 +247,22 @@ export const scheduleReminder = createTool({
 	fn: ({ reminder, scheduledTime, recurring }, context) => {
 		try {
 			const id = uuidv4();
-			const scheduledDate = new Date(scheduledTime);
+			const scheduledDate = parseTimeInput(scheduledTime);
 
 			if (!isValid(scheduledDate)) {
 				return {
 					success: false,
 					message:
 						"Invalid date format. Please use natural language like: 'tomorrow at 3pm', 'in 2 hours', 'next Monday at 9am', 'July 30th at 2:30pm', 'Friday morning'. Avoid vague terms.",
+				};
+			}
+
+			// Check if the time is in the past
+			const now = new Date();
+			if (isBefore(scheduledDate, now)) {
+				return {
+					success: false,
+					message: `Cannot schedule reminder in the past. The time ${scheduledDate.toLocaleString()} has already passed.`,
 				};
 			}
 
