@@ -20,7 +20,7 @@ export class ReminderNotificationService {
 	constructor(
 		private readonly session: Session,
 		private readonly sessionService: BaseSessionService,
-		private readonly notifyRunner: EnhancedRunner,
+		private readonly telegramRunner: EnhancedRunner,
 		checkIntervalMs = 30000, // Check every 30 seconds instead of every second
 	) {
 		this.checkIntervalMs = checkIntervalMs;
@@ -152,7 +152,7 @@ export class ReminderNotificationService {
 				Scheduled for: ${reminder.scheduledTime ? new Date(reminder.scheduledTime).toLocaleString() : "None"}
 			`;
 
-			await this.notifyRunner.ask(dedent`
+			await this.telegramRunner.ask(dedent`
 				Send this reminder notification via telegram: "${message} to channel id: ${env.TELEGRAM_CHANNEL_ID}"
 			`);
 
