@@ -14,7 +14,7 @@ export const createPersonalAgent = async () => {
 		user_name: "Srujan",
 	};
 
-	const { runner, session } = AgentBuilder.create("personal_agent")
+	const { runner, session } = await AgentBuilder.create("personal_agent")
 		.withDescription(
 			"Personal productivity assistant for managing reminders and shopping lists",
 		)

@@ -1,4 +1,4 @@
-import { createSamplingHandler, McpTelegram } from "@iqai/adk";
+import { McpTelegram, createSamplingHandler } from "@iqai/adk";
 import * as dotenv from "dotenv";
 import { env } from "./env";
 import { createPersonalAgent } from "./personal-agent/agent";
@@ -16,14 +16,7 @@ dotenv.config();
 async function main() {
 	console.log("🤖 Initializing Telegram bot agent...");
 
-	const agent = await createPersonalAgent();
-
-	// Get the current session
-	const session = await sessionService.getSession(
-		"personal_agent",
-		"default_user", // You might want to make this configurable
-		"default_session",
-	);
+	const { sessionService, session, runner } = await createPersonalAgent();
 
 	// Validate required environment variables
 	if (!env.TELEGRAM_BOT_TOKEN) {
@@ -34,14 +27,13 @@ async function main() {
 	}
 
 	// Create sampling handler for the Telegram MCP
-	const samplingHandler = createSamplingHandler(agent.runner.ask);
+	const samplingHandler = createSamplingHandler(runner.ask);
 
 	// Initialize Telegram toolset
 	const toolset = McpTelegram({
 		samplingHandler,
 		env: {
 			TELEGRAM_BOT_TOKEN: env.TELEGRAM_BOT_TOKEN,
-			PATH: env.PATH,
 		},
 	});
 
