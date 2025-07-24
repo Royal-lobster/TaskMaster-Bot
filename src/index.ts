@@ -1,8 +1,8 @@
 import { createSamplingHandler, McpTelegram } from "@iqai/adk";
 import * as dotenv from "dotenv";
 import { env } from "./env";
-import { createTaskMasterAgent } from "./personal-agent/agent";
 import { createReminderNotificationService } from "./services/reminder-notification";
+import { createTaskMasterAgent } from "./task-master-agent/agent";
 
 dotenv.config();
 
