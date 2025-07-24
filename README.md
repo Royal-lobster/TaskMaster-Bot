@@ -1,13 +1,30 @@
-# 🤖 ADK Agent Starter
+# 🤖 Personal Productivity Telegram Bot
 
-This is a starter template to start building your own agent with `@iqai/adk` library. 
+A smart personal productivity assistant powered by the `@iqai/adk` library that helps you manage reminders and shopping lists via Telegram. This bot features intelligent sub-agents that handle different aspects of personal organization with automatic reminder notifications.
+
+## ✨ Features
+
+### 🔔 Smart Reminder Management
+- **Add reminders** with flexible time parsing ("in 2 hours", "tomorrow at 3pm", "next Monday")
+- **Schedule reminders** for specific dates and times
+- **Recurring reminders** (daily, weekly, monthly with custom intervals)
+- **Automatic notifications** via Telegram when reminders are due
+- **View and manage** all your reminders with filtering options
+
+### � Shopping List Assistant
+- **Add items** to your shopping list with quantities
+- **Mark items as completed** when purchased
+- **Update or delete** items easily
+- **Clear completed items** to keep your list organized
+- **View organized lists** with pending and completed sections
+
+### 🤖 Intelligent Agent System
+- **Multi-agent architecture** with specialized sub-agents
+- **Natural language understanding** for routing requests
+- **Persistent state management** with database storage
+- **Context-aware responses** based on your history
 
 ## 🚀 Get Started
-Start by cloning the repository or clicking on use as template button on github ui. 
-
-```bash
-git clone https://github.com/IQAICOM/adk-agent-starter.git
-```
 
 📦 Install the dependencies
 
@@ -15,59 +32,149 @@ git clone https://github.com/IQAICOM/adk-agent-starter.git
 pnpm install
 ```
 
+## ⚙️ Environment Setup
+Create a `.env` file with the following variables:
+
+```bash
+# Required: Google AI API key for the language model
+GOOGLE_API_KEY=your_google_api_key_here
+
+# Required: Database URL for persistent storage
+DATABASE_URL=postgresql://username:password@localhost:5432/database_name
+
+# Required: Telegram bot token from @BotFather
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
+
+# Required: Telegram channel/chat ID for notifications
+TELEGRAM_CHANNEL_ID=your_telegram_channel_id
+
+# Optional: Enable debug mode
+ADK_DEBUG=false
+```
+
+### Setting up Telegram
+1. Create a new bot with [@BotFather](https://t.me/botfather)
+2. Get your bot token and add it to `.env`
+3. Get your channel/chat ID where you want notifications sent
+
 ▶️ Run the agent
 
 ```bash
 pnpm dev
 ```
 
-## 📁 Folder Structure
-The main agent code lives in `index.ts` where the subagents live inside the `agents` folder. The agents can have tools which reside in the `tools` folder.
-
+## 📁 Project Structure
 ```
 ├── src/
-│   ├── agents/
-│   │   └── financial-agent/
-│   │       ├── index.ts
-│   │       └── tools/
-│   │           └── currency-converter-tool.ts
+│   ├── personal-agent/
+│   │   ├── agent.ts                    # Main personal assistant agent
+│   │   └── sub-agents/
+│   │       ├── reminder-agent/
+│   │       │   ├── agent.ts           # Reminder management logic
+│   │       │   └── tools.ts           # Reminder tools and actions
+│   │       └── shopping-list-agent/
+│   │           ├── agent.ts           # Shopping list management
+│   │           └── tools.ts           # Shopping list tools
 │   ├── services/
-│   │   └── wallet.ts
-│   ├── env.ts
-│   └── index.ts
+│   │   └── reminder-notification.ts   # Automatic notification service
+│   ├── types.ts                       # TypeScript type definitions
+│   ├── env.ts                         # Environment validation
+│   └── index.ts                       # Main application entry point
 ```
 
-## ⚙️ Environment Setup
-Make sure to configure your environment variables:
+## 💬 How to Use
 
-```bash
-cp .env.example .env
+Once your bot is running, you can interact with it via Telegram:
+
+### Reminder Commands
+- "Remind me to call mom tomorrow at 3pm"
+- "Add a task to finish the project"
+- "What are my reminders?"
+- "Schedule a daily reminder to take vitamins at 8am"
+- "Update my first reminder"
+
+### Shopping List Commands
+- "Add milk to my shopping list"
+- "Add 3 apples to shopping"
+- "What's on my shopping list?"
+- "Mark bread as completed"
+- "Clear completed items"
+
+The bot intelligently understands your requests and routes them to the appropriate assistant while maintaining context across conversations.
+
+## 🧰 Tech Stack
+- **[@iqai/adk](https://github.com/IQAICOM/adk-ts)**: AI agent development kit
+- **TypeScript**: Type-safe development
+- **PostgreSQL**: Persistent state storage
+- **Telegram Bot API**: Real-time messaging interface
+- **Google Gemini**: Large language model
+- **Node.js**: Runtime environment
+
+## 🏗️ Architecture
+
+### Agent Hierarchy
 ```
+Personal Agent (Router)
+├── Reminder Agent
+│   ├── Add/View/Update/Delete reminders
+│   ├── Schedule with flexible time parsing
+│   ├── Recurring reminder management
+│   └── Upcoming reminder queries
+└── Shopping List Agent
+    ├── Add/View/Update/Delete items
+    ├── Mark items as completed
+    ├── Quantity management
+    └── List organization
+```
+
+### Key Components
+- **Personal Agent**: Main coordinator that understands user intent and routes to specialized agents
+- **Sub-Agents**: Specialized agents for reminders and shopping lists with their own tools
+- **Notification Service**: Background service that monitors for due reminders and sends Telegram notifications
+- **State Management**: Persistent storage of user data with database sessions
+- **Tool System**: Modular functions that agents can use to perform specific actions
 
 ## 🧰 Dev Tools
-This starter includes:
--  **GitHub Actions**: CI/CD pipeline
-- 📦 **PNPM**: Fast package manager
+This project includes:
+- 🏗️ **TypeScript**: Type safety and better developer experience
+- 📦 **PNPM**: Fast and efficient package manager
+- 🔧 **tsx**: Fast TypeScript execution for development
+- 🗄️ **PostgreSQL**: Robust database for state persistence
+- ⚡ **Hot reload**: Automatic restart during development
 
-## 🏗️ Building Your Agent
-1. **Create new agents** in the `src/agents/` directory
-2. **Add tools** to your agents in the `tools/` subdirectory
-3. **Configure services** in the `src/services/` directory
-4. **Update environment** variables in `src/env.ts`
+## 🎯 Extending the Bot
+
+### Adding New Agents
+1. Create a new agent in `src/personal-agent/sub-agents/`
+2. Define tools in the agent's `tools.ts` file
+3. Register the agent in `src/personal-agent/agent.ts`
+4. Update the personal agent's instructions to route to your new agent
+
+### Adding New Tools
+1. Create tools using `createTool()` from `@iqai/adk`
+2. Define the tool's schema with Zod validation
+3. Implement the tool's functionality with state management
+4. Add the tool to the appropriate agent
+
+### Customizing Behavior
+- Modify agent instructions in the respective agent files
+- Update the personal agent's routing logic
+- Customize notification messages in `reminder-notification.ts`
+- Add new data types in `types.ts`
 
 ## 📚 Links
-- [ADK Library](https://github.com/IQAICOM/adk-ts)
+- [ADK Library Documentation](https://github.com/IQAICOM/adk-ts)
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [Google AI Studio](https://aistudio.google.com/) (for API keys)
 
-## 🤝 Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📄 License
 MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
-If you encounter any issues or have questions:
-- 📝 [Create an issue](https://github.com/IQAICOM/adk-agent-starter/issues)
+## 🔧 Troubleshooting
+
+### Common Issues
+- **Database connection errors**: Ensure PostgreSQL is running and DATABASE_URL is correct
+- **Telegram bot not responding**: Verify TELEGRAM_BOT_TOKEN and that the bot is started
+- **Notifications not working**: Check TELEGRAM_CHANNEL_ID and bot permissions
+- **Google AI errors**: Ensure GOOGLE_API_KEY is valid and has sufficient quota
