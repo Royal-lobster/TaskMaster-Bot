@@ -8,11 +8,6 @@ export const createTaskMasterAgent = async () => {
 	const reminderAgent = await createReminderAgent();
 	const shoppingListAgent = await createShoppingListAgent();
 	const sessionService = createDatabaseSessionService(env.DATABASE_URL);
-	const sessionKey = {
-		userId: "default_user",
-		appName: "task_master",
-		sessionId: "default_session",
-	};
 
 	const initialState = {
 		reminders: [],
@@ -25,7 +20,6 @@ export const createTaskMasterAgent = async () => {
 		)
 		.withSessionService(sessionService, {
 			state: initialState,
-			...sessionKey,
 		})
 		.withModel("gemini-2.5-flash")
 		.withInstruction(dedent`
@@ -85,6 +79,7 @@ export const createTaskMasterAgent = async () => {
 			- Summarize what was accomplished after delegating to sub-agents
 			- Suggest related actions that might be helpful
 			- use emojis to improve the formatting of the message
+			- Answer in plain text, don't use markdown! except for lists
 
 			**Examples of Good Responses:**
 			- "I'll help you add that reminder. Let me connect you with my reminder assistant..."
