@@ -7,6 +7,7 @@ import {
 	type Session,
 } from "@iqai/adk";
 import dedent from "dedent";
+import { env } from "../env";
 import type { PersonalAgentState, Reminder } from "../types";
 
 export interface ReminderNotificationService {
@@ -152,6 +153,7 @@ export class ReminderNotificationServiceImpl
 	private async sendReminderNotification(reminder: Reminder): Promise<void> {
 		try {
 			const { runner } = await AgentBuilder.create("reminder_notify_agent")
+				.withModel("gemini-2.5-flash")
 				.withTools(...this.telegramTools)
 				.build();
 
@@ -164,7 +166,7 @@ export class ReminderNotificationServiceImpl
 			`;
 
 			await runner.ask(dedent`
-				Send this reminder notification via telegram: "${message}"
+				Send this reminder notification via telegram: "${message} to channel id: ${env.TELEGRAM_CHANNEL_ID}"
 			`);
 
 			console.log(`✅ Sent reminder: ${reminder.text}`);

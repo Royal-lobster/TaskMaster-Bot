@@ -19,6 +19,7 @@ export const createPersonalAgent = async () => {
 			"Personal productivity assistant for managing reminders and shopping lists",
 		)
 		.withSessionService(sessionService, { state: initialState })
+		.withModel("gemini-2.5-flash")
 		.withInstruction(dedent`
 			You are a helpful personal productivity assistant designed to help users manage their daily tasks and shopping needs.
 			Your role is to understand user requests and direct them to the appropriate specialized agent while maintaining context.
@@ -52,11 +53,6 @@ export const createPersonalAgent = async () => {
 			<shopping_list>
 			{shopping_list}
 			</shopping_list>
-
-			**Interaction History:**
-			<interaction_history>
-			{interaction_history}
-			</interaction_history>
 
 			You have access to the following specialized agents:
 
