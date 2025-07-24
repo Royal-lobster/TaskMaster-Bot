@@ -29,12 +29,12 @@
 	},
 	"homepage": "https://github.com/IQAICOM/adk-agent-starter#readme",
 	"dependencies": {
-		"@iqai/adk": "^0.1.15",
+		"@iqai/adk": "^0.1.19",
 		"dedent": "^1.6.0",
 		"dotenv": "^17.2.0",
 		"pg": "^8.16.3",
 		"uuid": "^11.1.0",
-		"zod": "^4.0.8"
+		"zod": "^3.24.4"
 	},
 	"devDependencies": {
 		"@types/node": "^22.16.0",

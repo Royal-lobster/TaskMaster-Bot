@@ -2,7 +2,9 @@
 	"compilerOptions": {
 		"target": "ES2022",
 		"module": "CommonJS",
-		"lib": ["ES2022"],
+		"lib": [
+			"ES2022"
+		],
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"strict": true,
@@ -19,8 +21,21 @@
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noFallthroughCasesInSwitch": true,
-		"types": ["node"]
+		"types": [
+			"node"
+		],
+		"baseUrl": "./",
+		"paths": {
+			"@/*": [
+				"src/*"
+			]
+		}
 	},
-	"include": ["src/**/*.ts"],
-	"exclude": ["node_modules", "dist"]
+	"include": [
+		"src/**/*.ts"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
 }

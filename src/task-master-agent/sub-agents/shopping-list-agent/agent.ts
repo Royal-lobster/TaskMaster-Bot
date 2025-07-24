@@ -2,11 +2,11 @@ import { LlmAgent } from "@iqai/adk";
 import dedent from "dedent";
 import {
 	addItem,
-	viewShoppingList,
-	updateItem,
+	clearCompletedItems,
 	deleteItem,
 	markItemCompleted,
-	clearCompletedItems,
+	updateItem,
+	viewShoppingList,
 } from "./tools";
 
 export const createShoppingListAgent = async () => {

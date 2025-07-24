@@ -1,5 +1,6 @@
 import { createTool } from "@iqai/adk";
-import * as z from "zod/v4";
+import { z } from "zod";
+import type { ShoppingListItem } from "@/types";
 
 export const addItem = createTool({
 	name: "add_item",
@@ -34,7 +35,10 @@ export const viewShoppingList = createTool({
 	name: "view_shopping_list",
 	description: "View all items in the shopping list",
 	fn: (_, context) => {
-		const shoppingList = context.state.get("shopping_list", []);
+		const shoppingList: ShoppingListItem[] = context.state.get(
+			"shopping_list",
+			[],
+		);
 		const pendingItems = shoppingList.filter((item) => !item.completed);
 		const completedItems = shoppingList.filter((item) => item.completed);
 
@@ -163,7 +167,10 @@ export const clearCompletedItems = createTool({
 	name: "clear_completed_items",
 	description: "Remove all completed items from the shopping list",
 	fn: (_, context) => {
-		const shoppingList = context.state.get("shopping_list", []);
+		const shoppingList: ShoppingListItem[] = context.state.get(
+			"shopping_list",
+			[],
+		);
 		const completedItems = shoppingList.filter((item) => item.completed);
 		const pendingItems = shoppingList.filter((item) => !item.completed);
 

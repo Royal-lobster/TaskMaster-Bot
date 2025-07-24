@@ -1,6 +1,7 @@
 import { createTool } from "@iqai/adk";
 import { v4 as uuidv4 } from "uuid";
-import * as z from "zod/v4";
+import { z } from "zod";
+import type { Reminder } from "@/types";
 
 export const addReminder = createTool({
 	name: "add_reminder",
@@ -494,7 +495,7 @@ export const viewRemindersByType = createTool({
 			.describe("Filter reminders by type"),
 	}),
 	fn: ({ type }, context) => {
-		const allReminders = context.state.get("reminders", []);
+		const allReminders: Reminder[] = context.state.get("reminders", []);
 
 		let filteredReminders = allReminders;
 
@@ -618,7 +619,7 @@ export const modifyRecurringSchedule = createTool({
 			? `${oldRecurring.type}${oldRecurring.interval > 1 ? ` (every ${oldRecurring.interval})` : ""}`
 			: "none";
 
-		const newRecurringText = `${recurring.type}${recurring.interval > 1 ? ` (every ${recurring.interval})` : ""}`;
+		const newRecurringText = `${recurring.type}${(recurring.interval ?? 1) > 1 ? ` (every ${recurring.interval ?? 1})` : ""}`;
 
 		return {
 			success: true,
@@ -643,9 +644,9 @@ export const getUpcomingReminders = createTool({
 			.describe("Number of hours to look ahead for upcoming reminders"),
 	}),
 	fn: ({ hours }, context) => {
-		const reminders = context.state.get("reminders", []);
+		const reminders: Reminder[] = context.state.get("reminders", []);
 		const now = new Date();
-		const cutoffTime = new Date(now.getTime() + hours * 60 * 60 * 1000);
+		const cutoffTime = new Date(now.getTime() + (hours || 0) * 60 * 60 * 1000);
 
 		const upcomingReminders = reminders
 			.filter((reminder) => {
@@ -655,8 +656,8 @@ export const getUpcomingReminders = createTool({
 				return scheduledTime >= now && scheduledTime <= cutoffTime;
 			})
 			.sort((a, b) => {
-				const timeA = new Date(a.scheduledTime).getTime();
-				const timeB = new Date(b.scheduledTime).getTime();
+				const timeA = new Date(a.scheduledTime ?? 0).getTime();
+				const timeB = new Date(b.scheduledTime ?? 0).getTime();
 				return timeA - timeB;
 			});
 

@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@iqai/adk':
-        specifier: ^0.1.15
-        version: 0.1.15(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(@types/pg@8.15.4)(pg@8.16.3)(react@19.1.0)(ws@8.18.3)
+        specifier: ^0.1.19
+        version: 0.1.19(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(@types/pg@8.15.4)(pg@8.16.3)(react@19.1.0)(ws@8.18.3)
       dedent:
         specifier: ^1.6.0
         version: 1.6.0
@@ -24,8 +24,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       zod:
-        specifier: ^4.0.8
-        version: 4.0.8
+        specifier: ^3.24.4
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^22.16.0
@@ -265,8 +265,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  '@iqai/adk@0.1.15':
-    resolution: {integrity: sha512-2rioVJ4T/Js+NNXYrhgDg6rhNTv1IKQgmHHOgls0TTybcgHl0bzaiamaPUoa8hxVdqjMDxPOSdcWnrq60SpwHQ==}
+  '@iqai/adk@0.1.19':
+    resolution: {integrity: sha512-QPO6YEgt5DDdPf9ISlHZ/IInup3bDk2PpN/NAIImvskySyGNomaCaeY8FL96z4IAuz3mdHeBvoK+/9eCQVA27Q==}
     engines: {node: '>=22.0'}
     peerDependencies:
       better-sqlite3: ^11.10.0
@@ -1958,9 +1958,6 @@ packages:
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
-  zod@4.0.8:
-    resolution: {integrity: sha512-+MSh9cZU9r3QKlHqrgHMTSr3QwMGv4PLfR0M4N/sYWV5/x67HgXEhIGObdBkpnX8G78pTgWnIrBL2lZcNJOtfg==}
-
 snapshots:
 
   '@ai-sdk/provider-utils@2.2.8(zod@3.25.76)':
@@ -2143,7 +2140,7 @@ snapshots:
       protobufjs: 7.5.3
       yargs: 17.7.2
 
-  '@iqai/adk@0.1.15(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(@types/pg@8.15.4)(pg@8.16.3)(react@19.1.0)(ws@8.18.3)':
+  '@iqai/adk@0.1.19(@opentelemetry/core@2.0.1(@opentelemetry/api@1.9.0))(@types/pg@8.15.4)(pg@8.16.3)(react@19.1.0)(ws@8.18.3)':
     dependencies:
       '@anthropic-ai/sdk': 0.39.0
       '@electric-sql/pglite': 0.3.5
@@ -2170,6 +2167,7 @@ snapshots:
       openai: 4.104.0(ws@8.18.3)(zod@3.25.76)
       uuid: 11.1.0
       zod: 3.25.76
+      zod-to-json-schema: 3.24.6(zod@3.25.76)
     optionalDependencies:
       pg: 8.16.3
     transitivePeerDependencies:
@@ -4098,5 +4096,3 @@ snapshots:
       zod: 3.25.76
 
   zod@3.25.76: {}
-
-  zod@4.0.8: {}
