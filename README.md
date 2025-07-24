@@ -1,6 +1,6 @@
-# 🤖 Personal Productivity Telegram Bot
+# 📝 TaskMaster Bot
 
-A smart personal productivity assistant powered by the `@iqai/adk` library that helps you manage reminders and shopping lists via Telegram. This bot features intelligent sub-agents that handle different aspects of personal organization with automatic reminder notifications.
+Your intelligent personal productivity assistant powered by the `@iqai/adk` library. TaskMaster helps you master your daily tasks by managing reminders and shopping lists via Telegram, featuring smart sub-agents and automatic notifications to keep you organized and on track.
 
 ## ✨ Features
 
@@ -84,7 +84,7 @@ pnpm dev
 
 ## 💬 How to Use
 
-Once your bot is running, you can interact with it via Telegram:
+Once TaskMaster is running, you can interact with it via Telegram:
 
 ### Reminder Commands
 - "Remind me to call mom tomorrow at 3pm"
@@ -100,7 +100,7 @@ Once your bot is running, you can interact with it via Telegram:
 - "Mark bread as completed"
 - "Clear completed items"
 
-The bot intelligently understands your requests and routes them to the appropriate assistant while maintaining context across conversations.
+TaskMaster intelligently understands your requests and routes them to the appropriate assistant while maintaining context across conversations.
 
 ## 🧰 Tech Stack
 - **[@iqai/adk](https://github.com/IQAICOM/adk-ts)**: AI agent development kit
@@ -114,7 +114,7 @@ The bot intelligently understands your requests and routes them to the appropria
 
 ### Agent Hierarchy
 ```
-Personal Agent (Router)
+TaskMaster Agent (Main Router)
 ├── Reminder Agent
 │   ├── Add/View/Update/Delete reminders
 │   ├── Schedule with flexible time parsing
@@ -128,7 +128,7 @@ Personal Agent (Router)
 ```
 
 ### Key Components
-- **Personal Agent**: Main coordinator that understands user intent and routes to specialized agents
+- **TaskMaster Agent**: Main coordinator that understands user intent and routes to specialized agents
 - **Sub-Agents**: Specialized agents for reminders and shopping lists with their own tools
 - **Notification Service**: Background service that monitors for due reminders and sends Telegram notifications
 - **State Management**: Persistent storage of user data with database sessions
@@ -142,13 +142,13 @@ This project includes:
 - 🗄️ **PostgreSQL**: Robust database for state persistence
 - ⚡ **Hot reload**: Automatic restart during development
 
-## 🎯 Extending the Bot
+## 🎯 Extending TaskMaster
 
 ### Adding New Agents
 1. Create a new agent in `src/personal-agent/sub-agents/`
 2. Define tools in the agent's `tools.ts` file
 3. Register the agent in `src/personal-agent/agent.ts`
-4. Update the personal agent's instructions to route to your new agent
+4. Update TaskMaster's instructions to route to your new agent
 
 ### Adding New Tools
 1. Create tools using `createTool()` from `@iqai/adk`

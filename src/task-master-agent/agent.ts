@@ -4,7 +4,7 @@ import { env } from "../env";
 import { createReminderAgent } from "./sub-agents/reminder-agent/agent";
 import { createShoppingListAgent } from "./sub-agents/shopping-list-agent/agent";
 
-export const createPersonalAgent = async () => {
+export const createTaskMasterAgent = async () => {
 	const reminderAgent = await createReminderAgent();
 	const shoppingListAgent = await createShoppingListAgent();
 	const sessionService = createDatabaseSessionService(env.DATABASE_URL);

@@ -1,7 +1,7 @@
-import { McpTelegram, createSamplingHandler } from "@iqai/adk";
+import { createSamplingHandler, McpTelegram } from "@iqai/adk";
 import * as dotenv from "dotenv";
 import { env } from "./env";
-import { createPersonalAgent } from "./personal-agent/agent";
+import { createTaskMasterAgent } from "./personal-agent/agent";
 import { createReminderNotificationService } from "./services/reminder-notification";
 
 dotenv.config();
@@ -16,7 +16,7 @@ dotenv.config();
 async function main() {
 	console.log("🤖 Initializing Telegram bot agent...");
 
-	const { sessionService, session, runner } = await createPersonalAgent();
+	const { sessionService, session, runner } = await createTaskMasterAgent();
 
 	// Validate required environment variables
 	if (!env.TELEGRAM_BOT_TOKEN) {
