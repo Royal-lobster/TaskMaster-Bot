@@ -21,7 +21,7 @@ export class ReminderNotificationService {
 		private readonly session: Session,
 		private readonly sessionService: BaseSessionService,
 		private readonly telegramRunner: EnhancedRunner,
-		checkIntervalMs = 30000, // Check every 30 seconds instead of every second
+		checkIntervalMs = env.REMINDER_POLLING_MS,
 	) {
 		this.checkIntervalMs = checkIntervalMs;
 	}

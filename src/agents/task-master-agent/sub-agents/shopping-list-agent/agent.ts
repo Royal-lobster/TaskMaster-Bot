@@ -1,4 +1,3 @@
-import { LlmAgent } from "@iqai/adk";
 import dedent from "dedent";
 import {
 	addItem,
@@ -8,12 +7,14 @@ import {
 	updateItem,
 	viewShoppingList,
 } from "./tools";
+import { LlmAgent } from "@iqai/adk";
+import { env } from "@/env";
 
 export const createShoppingListAgent = async () => {
 	return new LlmAgent({
 		name: "shopping_assistant",
 		description: "a smart shopping list management assistant",
-		model: "gemini-2.5-flash",
+		model: env.LLM_MODEL,
 		instruction: dedent`
 			You are a helpful shopping list assistant that helps users manage their shopping lists.
 

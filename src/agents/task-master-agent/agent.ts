@@ -1,6 +1,6 @@
 import { AgentBuilder, createDatabaseSessionService } from "@iqai/adk";
 import dedent from "dedent";
-import { env } from "../../env";
+import { env } from "@/env";
 import { createReminderAgent } from "./sub-agents/reminder-agent/agent";
 import { createShoppingListAgent } from "./sub-agents/shopping-list-agent/agent";
 
@@ -21,7 +21,7 @@ export const createTaskMasterAgent = async () => {
 		.withSessionService(sessionService, {
 			state: initialState,
 		})
-		.withModel("gemini-2.5-flash")
+		.withModel(env.LLM_MODEL)
 		.withInstruction(dedent`
 			You are a helpful personal productivity assistant designed to help users manage their daily tasks and shopping needs.
 			Your role is to understand user requests and direct them to the appropriate specialized agent while maintaining context.

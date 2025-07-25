@@ -14,12 +14,13 @@ import {
 	viewReminders,
 	viewRemindersByType,
 } from "./tools";
+import { env } from "@/env";
 
 export const createReminderAgent = async () => {
 	return new LlmAgent({
 		name: "task_manager",
 		description: "a smart reminder management assistant",
-		model: "gemini-2.5-flash",
+		model: env.LLM_MODEL,
 		instruction: dedent`
       You are a friendly reminder assistant that helps users manage their reminders and scheduled tasks.
 

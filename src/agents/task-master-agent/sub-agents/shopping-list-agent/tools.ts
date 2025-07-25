@@ -18,7 +18,7 @@ export const addItem = createTool({
 			text: item,
 			quantity: quantity || 1,
 			completed: false,
-			id: Date.now(), // Simple ID generation
+			id: Date.now(),
 		};
 		shoppingList.push(newItem);
 		context.state.set("shopping_list", shoppingList);

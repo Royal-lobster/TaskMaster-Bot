@@ -1,10 +1,11 @@
 import { createSamplingHandler } from "@iqai/adk";
-import * as dotenv from "dotenv";
+import { config } from "dotenv";
 import { createTaskMasterAgent } from "./agents/task-master-agent/agent";
 import { createTelegramAgent } from "./agents/telegram-agent/agent";
 import { ReminderNotificationService } from "./services/reminder-notification";
 
-dotenv.config();
+// load env vars
+config();
 
 /**
  * TaskMaster Bot - Your Intelligent Personal Productivity Assistant
