@@ -89,11 +89,11 @@ graph LR
     
     %% Data Structures
     subgraph "📊 Data Models"
-        ReminderModel[📝 Reminder<br/>• id: string<br/>• text: string<br/>• createdAt: string<br/>• scheduledTime?: string<br/>• recurring?: RecurringConfig<br/>• type?: string]
+        ReminderModel[📝 Reminder<br/>id, text, createdAt<br/>scheduledTime, recurring<br/>type]
         
-        ShoppingModel[🛍️ ShoppingListItem<br/>• id: string<br/>• text: string<br/>• quantity: number<br/>• completed: boolean]
+        ShoppingModel[🛍️ ShoppingListItem<br/>id, text, quantity<br/>completed]
         
-        StateModel[🗃️ PersonalAgentState<br/>• reminders: Reminder[]<br/>• shopping_list: ShoppingListItem[]]
+        StateModel[🗃️ PersonalAgentState<br/>reminders array<br/>shopping_list array]
     end
 
     classDef toolClass fill:#e3f2fd,stroke:#1976d2,stroke-width:2px
