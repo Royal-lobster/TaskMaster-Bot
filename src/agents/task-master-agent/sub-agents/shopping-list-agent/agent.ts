@@ -13,6 +13,7 @@ export const createShoppingListAgent = async () => {
 	return new LlmAgent({
 		name: "shopping_assistant",
 		description: "a smart shopping list management assistant",
+		model: "gemini-2.5-flash",
 		instruction: dedent`
 			You are a helpful shopping list assistant that helps users manage their shopping lists.
 
