@@ -13,12 +13,15 @@ export const addItem = createTool({
 			.describe("The quantity of the item (optional)"),
 	}),
 	fn: ({ item, quantity }, context) => {
-		const shoppingList = context.state.get("shopping_list", []);
+		const shoppingList: ShoppingListItem[] = context.state.get(
+			"shopping_list",
+			[],
+		);
 		const newItem = {
 			text: item,
 			quantity: quantity || 1,
 			completed: false,
-			id: Date.now(),
+			id: Date.now().toString(),
 		};
 		shoppingList.push(newItem);
 		context.state.set("shopping_list", shoppingList);

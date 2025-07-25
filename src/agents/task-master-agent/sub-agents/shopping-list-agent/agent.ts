@@ -1,4 +1,6 @@
+import { LlmAgent } from "@iqai/adk";
 import dedent from "dedent";
+import { env } from "@/env";
 import {
 	addItem,
 	clearCompletedItems,
@@ -7,8 +9,6 @@ import {
 	updateItem,
 	viewShoppingList,
 } from "./tools";
-import { LlmAgent } from "@iqai/adk";
-import { env } from "@/env";
 
 export const createShoppingListAgent = async () => {
 	return new LlmAgent({
