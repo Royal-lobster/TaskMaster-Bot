@@ -4,23 +4,36 @@ import { env } from "@/env";
 import { createReminderAgent } from "./sub-agents/reminder-agent/agent";
 import { createShoppingListAgent } from "./sub-agents/shopping-list-agent/agent";
 
+const APP_NAME = "task_master";
+const USER_ID = "default_user";
+const SESSION_ID = "default_session";
+
 export const createTaskMasterAgent = async () => {
 	const reminderAgent = await createReminderAgent();
 	const shoppingListAgent = await createShoppingListAgent();
 	const sessionService = createDatabaseSessionService(env.DATABASE_URL);
-
 	const initialState = {
 		reminders: [],
 		shopping_list: [],
 	};
 
-	const { runner, session } = await AgentBuilder.create("personal_agent")
+	let session = await sessionService.getSession(APP_NAME, USER_ID, SESSION_ID);
+
+	if (!session) {
+		session = await sessionService.createSession(
+			APP_NAME,
+			USER_ID,
+			initialState,
+			SESSION_ID,
+		);
+	}
+
+	const { runner } = await AgentBuilder.create("personal_agent")
 		.withDescription(
 			"Personal productivity assistant for managing reminders and shopping lists",
 		)
-		.withSessionService(sessionService, {
-			state: initialState,
-		})
+		.withSessionService(sessionService, { userId: USER_ID, appName: APP_NAME })
+		.withSession(session)
 		.withModel(env.LLM_MODEL)
 		.withInstruction(dedent`
 			You are a helpful personal productivity assistant designed to help users manage their daily tasks and shopping needs.
